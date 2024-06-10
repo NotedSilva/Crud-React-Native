@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
+import { Pressable, StyleSheet, Text, TextInput, View, Image } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { AntDesign, MaterialIcons } from '@expo/vector-icons';
 import { db, doc, updateDoc, deleteDoc } from "../firebase/index.js";
@@ -6,7 +6,7 @@ import { db, doc, updateDoc, deleteDoc } from "../firebase/index.js";
 const ShoppingItem = (props) => {
   const [isChecked, setIsChecked] = useState(props.isChecked);
   const [isEditing, setIsEditing] = useState(false);
-  const [editedTitle, setEditedTitle] = useState(props.title); // Estado para controlar o título editado
+  const [editedTitle, setEditedTitle] = useState(props.title);
 
   const updateIsChecked = async () => {
     const shoppingRef = doc(db, "shopping", props.id);
@@ -26,18 +26,17 @@ const ShoppingItem = (props) => {
   };
 
   const handleSave = async () => {
-    await updateShoppingItem(props.id, editedTitle); // Passar o novo título para a função de atualização
+    await updateShoppingItem(props.id, editedTitle);
     setIsEditing(false);
   };
 
-  // Função para atualizar o título do item
   const updateShoppingItem = async (id, newTitle) => {
     try {
       const shoppingRef = doc(db, "shopping", id);
       await updateDoc(shoppingRef, {
         title: newTitle,
       });
-      props.getShoppingList(); // Atualizar a lista após a edição
+      props.getShoppingList();
     } catch (error) {
       console.error("Error updating document: ", error);
     }
@@ -49,7 +48,6 @@ const ShoppingItem = (props) => {
 
   return (
     <View style={styles.container}>
-      {/* checked icon */}
       <Pressable onPress={() => setIsChecked(!isChecked)}>
         {isChecked ? (
           <AntDesign name="checkcircle" size={24} color="black" />
@@ -57,32 +55,35 @@ const ShoppingItem = (props) => {
           <AntDesign name="checkcircleo" size={24} color="black" />
         )}
       </Pressable>
-      {/* shopping text */}
-      {isEditing ? ( // Renderizar um TextInput para editar o nome do item se estiver em modo de edição
+      {isEditing ? (
         <TextInput
           style={styles.editInput}
-          value={editedTitle} // Usar o valor do estado do título editado
-          onChangeText={setEditedTitle} // Atualizar o estado do título editado
+          value={editedTitle}
+          onChangeText={setEditedTitle}
           onSubmitEditing={handleSave}
         />
       ) : (
-        <Text style={styles.title}>{props.title}</Text>
+        <View style={styles.textContainer}>
+          <Text style={styles.title}>{props.title}</Text>
+          <Text style={styles.quantity}>Quantidade: {props.quantity}</Text>
+          {props.imageUrl && (
+            <Image source={{ uri: props.imageUrl }} style={styles.image} />
+          )}
+        </View>
       )}
-      {/* edit button */}
-      {!isEditing && ( // Renderizar o botão de edição apenas se não estiver em modo de edição
+      {!isEditing && (
         <Pressable onPress={handleEdit}>
           <MaterialIcons name="edit" size={24} color="black" />
         </Pressable>
       )}
-      {/* delete button */}
       <Pressable onPress={deleteShoppingItem}>
         <MaterialIcons name="delete" size={24} color="black" />
       </Pressable>
     </View>
-  )
-}
+  );
+};
 
-export default ShoppingItem
+export default ShoppingItem;
 
 const styles = StyleSheet.create({
   container: {
@@ -96,11 +97,17 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     borderRadius: 10,
   },
-  title: {
+  textContainer: {
     flex: 1,
     marginLeft: 10,
+  },
+  title: {
     fontSize: 17,
     fontWeight: "500",
+  },
+  quantity: {
+    fontSize: 14,
+    color: "grey",
   },
   editInput: {
     flex: 1,
@@ -108,5 +115,10 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: "500",
     backgroundColor: "white",
+  },
+  image: {
+    width: 50,
+    height: 50,
+    marginTop: 10,
   },
 });
