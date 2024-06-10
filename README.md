@@ -33,11 +33,15 @@ Contribuições são bem-vindas! Sinta-se à vontade para abrir um problema ou e
 ## Telas do App de Lista
 
 ## 1. Tela principal com todas funcionalidades
-![tela-itens-1](https://github.com/NotedSilva/Crud-React-Native/assets/119432493/7072ca12-deb1-430f-a6e9-417653b4531c)
+![tela-inicial](https://github.com/NotedSilva/Crud-React-Native/assets/119432493/a176e4ca-1c83-4342-8e32-a5949a2078d6)
 
 ## 2. Tela mostrando a edição dos itens
 ![tela-itens-edicao](https://github.com/NotedSilva/Crud-React-Native/assets/119432493/62783e8c-aa78-437e-8865-c02ec346d78a)
 
 ## 3. Tela mostrando a adição dos itens
 ![tela-itens-adicao](https://github.com/NotedSilva/Crud-React-Native/assets/119432493/b2c30d3f-f3c5-4c6b-97bf-bb1c24dc6f77)
+
+## 4. Tela mostrando a adição de imagens
+![add_img](https://github.com/NotedSilva/Crud-React-Native/assets/119432493/47e7c5be-5bbe-4be7-982d-c2affc4a9384)
+
 
